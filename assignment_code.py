@@ -53,7 +53,7 @@ print(f"Number of duplicate dates: {df.index.duplicated().sum()}")
 # 4. FOCUSING ON RELEVANT COLUMNS (WITH CORRECTED COLUMN NAMES)
 print("\n4. Selecting relevant columns based on project scope...")
 
-# CORRECTED COLUMN NAMES - MATCHING EXACTLY WHAT'S IN YOUR CSV
+# CORRECTED COLUMN NAMES 
 columns_to_keep = [
     'Coal (Brown) -  GWh',      # Note: Two spaces after dash
     'Coal (Black) -  GWh',      # Note: Two spaces after dash
@@ -100,5 +100,6 @@ print("\nFirst 5 rows:")
 print(df_focused.head())
 print("\nDataset description:")
 print(df_focused.describe())
+
 
 print("\nCleaning and enhancement complete! The data is now ready for analysis.")
