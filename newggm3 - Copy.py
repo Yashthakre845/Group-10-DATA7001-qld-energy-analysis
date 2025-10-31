@@ -6,9 +6,8 @@ from sklearn.metrics import mean_squared_error
 import numpy as np
 
 
-# DATA LOADING AND CLEANING
 
-print("--- Starting Data Loading and Cleaning ---")
+print("Data Loading and Cleaning")
 try:
     df = pd.read_csv('queensland_data.csv')
 except FileNotFoundError:
@@ -30,12 +29,12 @@ for col in df.columns:
 df.rename(columns=cleaned_columns, inplace=True)
 
 df.to_csv('cleaned_queensland_data.csv')
-print("--- Data Cleaning Complete. ---")
+print("Data Cleaning Complete")
 
 
-# DATA ANALYSIS AND FEATURE ENGINEERING
 
-print("\n--- Starting Analysis and Feature Engineering ---")
+
+print("\nAnalysis and Feature Engineering")
 df = pd.read_csv('cleaned_queensland_data.csv', index_col='date', parse_dates=True)
 
 # Robust Column Name Identification 
@@ -57,7 +56,7 @@ coal_col = find_col(df, 'coal_black', True)
 imports_col = find_col(df, 'imports', True)
 exports_col = find_col(df, 'exports', True)
 
-#Create All Aggregate Columns Upfront ---
+
 renewable_sources = [hydro_col, wind_col, utility_solar_col, rooftop_solar_col, bioenergy_col]
 fossil_sources = [col for col in df.columns if 'coal' in col or 'gas' in col or 'distillate' in col]
 generation_cols = [col for col in df.columns if '_gwh' in col and 'charging' not in col]
@@ -68,10 +67,10 @@ df['total_generation_gwh'] = df['total_renewable_gwh'] + df['total_fossil_gwh']
 df['total_solar_gwh'] = df[rooftop_solar_col] + df[utility_solar_col]
 df['total_demand_gwh'] = df[generation_cols].sum(axis=1) + df[imports_col] - df[exports_col]
 df['operational_demand_gwh'] = df['total_demand_gwh'] - df['total_solar_gwh']
-print("--- All aggregate columns created. ---")
+print("aggregate columns created")
 
 
-# VISUALIZATIONS
+#VISUALIZATIONS
 
 plt.style.use('seaborn-v0_8-whitegrid')
 
@@ -157,4 +156,5 @@ ax5.set_ylabel('Daily Demand (GWh)'); ax5.set_xlabel('Date'); ax5.legend()
 fig5.tight_layout(); fig5.savefig('5_model_performance.png')
 print("Plot 5: '5_model_performance.png' saved with full context.")
 
-print("\n--- All analysis complete. ---")
+
+print("\nanalysis complete")
