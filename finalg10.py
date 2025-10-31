@@ -37,7 +37,7 @@ print("Data Cleaning Complete")
 print("\nAnalysis and Feature Engineering")
 df = pd.read_csv('cleaned_queensland_data.csv', index_col='date', parse_dates=True)
 
-# Robust Column Name Identification 
+
 def find_col(df, keyword, fail_if_missing=False):
     try:
         return [col for col in df.columns if keyword in col][0]
@@ -74,7 +74,7 @@ print("aggregate columns created")
 
 plt.style.use('seaborn-v0_8-whitegrid')
 
-#Plot 1
+
 fig1, ax1 = plt.subplots(figsize=(14, 8))
 ax1.stackplot(df.index, df[rooftop_solar_col], df[utility_solar_col], df[wind_col], df[hydro_col],
               labels=['Rooftop Solar', 'Utility Solar', 'Wind', 'Hydro'], colors=['#FFC300', '#FFD700', '#0077B6', '#00B4D8'])
@@ -83,7 +83,7 @@ ax1.set_ylabel('Daily Electricity Generation (GWh)'); ax1.set_xlabel('Year'); ax
 fig1.tight_layout(); fig1.savefig('1_rise_of_renewables.png')
 print("Plot 1: '1_rise_of_renewables.png' saved.")
 
-#Plot 2, 3, 4
+
 fig2, ax2 = plt.subplots(figsize=(14, 8))
 ax2.plot(df['total_demand_gwh'].rolling(window=30).mean(), label='Total Demand (30-day average)', color='grey', linestyle='--')
 ax2.plot(df['operational_demand_gwh'].rolling(window=30).mean(), label='Operational Demand after Solar (30-day average)', color='blue', linewidth=2)
@@ -138,18 +138,17 @@ print("\nModel Findings: Feature Coefficients")
 coeffs = pd.DataFrame(model.coef_, X.columns, columns=['Coefficient'])
 print(coeffs)
 
-#PLOT 5
-# Generate predictions for both the training and testing sets
+
 model_df['predicted_demand_gwh'] = model.predict(X)
 rmse = np.sqrt(mean_squared_error(y_test, model_df.loc[y_test.index, 'predicted_demand_gwh']))
 print(f"\nModel Performance on Test Set (RMSE): {rmse:.2f} GWh")
 
-# Create the visualization
+
 fig5, ax5 = plt.subplots(figsize=(14, 8))
 ax5.plot(model_df['total_demand_gwh'], label='Actual Demand', color='grey', alpha=0.9)
-# Plot the training predictions in blue
+
 ax5.plot(y_train.index, model_df.loc[y_train.index, 'predicted_demand_gwh'], label='Fitted Model (Train Set)', color='blue', linestyle='--')
-# Plot the testing predictions in red
+
 ax5.plot(y_test.index, model_df.loc[y_test.index, 'predicted_demand_gwh'], label='Predicted Demand (Test Set)', color='red', linestyle='--')
 ax5.set_title('Model Performance: Predicting Daily Electricity Demand', fontsize=16)
 ax5.set_ylabel('Daily Demand (GWh)'); ax5.set_xlabel('Date'); ax5.legend()
@@ -158,3 +157,4 @@ print("Plot 5: '5_model_performance.png' saved with full context.")
 
 
 print("\nanalysis complete")
+
